@@ -42,6 +42,7 @@ def depth_binning(depthFile, bin_size):
                         "rpkm": (count_sum / (bin_size / 1000) / (row_count / 1000000)),
                     }
                 )
+                """
                 print(
                     {
                         "chrom": chrom,
@@ -49,12 +50,12 @@ def depth_binning(depthFile, bin_size):
                         "end": region_end,
                         "count_sum": count_sum,
                         "row_count": row_count,
-                        "rpkm": count_sum / row_count * 1000000,
+                        "rpkm": (count_sum / (bin_size / 1000) / (row_count / 1000000)),
                     }
                 )
+                """
 
     result_df = pd.DataFrame(result)
-    result_df.set_index("chrom", "start", inplace=True)
 
     # save the result to a file, with name being the same as the input file
     # with a .binnedcounts.tsv extension and no .bed extension
