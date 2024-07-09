@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -ne 2 ]; then
+if [ $# -ne 3 ]; then
     echo "Usage: $0 <sample> <regions>"
     exit 1
 fi
@@ -8,6 +8,7 @@ fi
 # Arguments
 sample="$1"
 regions="$2"
+bin_size="$3"
 
 # Temporary files
 sorted=$(mktemp)
@@ -37,6 +38,9 @@ bedtools subtract -a "$bed" -b "$regions" > "$output"
 
 # Clean up temporary files
 rm "$sorted" "$depth" "$bed" "${sorted}.bai"
-
 echo "Depth calculation complete. Subtracted BED file saved to: $output"
+
+# Run the script with the sample and regions file as arguments
+python3 filtered_depth.py $output $bin_size
+binned_counts="${sample%.*}.binnedcounts.tsv"
 

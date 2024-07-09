@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import os
+import sys
 
 def depth_binning(depthFile, bin_size):
     """
@@ -32,4 +32,9 @@ def depth_binning(depthFile, bin_size):
     result_df = pd.DataFrame(result)
     result_df.set_index('chrom', 'start', inplace = True)
 
-    return result_df
+    # save the result to a file, with name being the same as the input file with a .binnedcounts.tsv extension and no .bed extension
+    result_df.to_csv(depthFile.replace('.bed', '.binnedcounts.tsv'), sep='\t')
+
+
+if __name__ == '__main__':
+    depth_binning(sys.argv[1], sys.argv[2])
