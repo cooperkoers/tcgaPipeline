@@ -18,8 +18,10 @@ def depth_binning(depthFile, bin_size):
 
     for chrom in df['chrom'].unique():
         chrom_df = df[df['chrom'] == chrom].sort_values(by='start')
-        start_pos = chrom_df['start'].min()
-        end_pos = chrom_df['end'].max()
+        start_pos = int(chrom_df['start'].min())
+        end_pos = int(chrom_df['end'].max())
+
+        bin_size = int(bin_size)
 
         for region_start in range(start_pos, end_pos, bin_size):
             region_end = region_start + bin_size
@@ -27,12 +29,16 @@ def depth_binning(depthFile, bin_size):
             if not region_df.empty:
                 count_sum = region_df['depth'].sum()
                 row_count = len(region_df)
-                result.append({'chrom': chrom, 'start': region_start, 'end': region_end, 'count_sum': count_sum, 'row_count': row_count}, 'rpkm': count_sum / row_count * 1000000)
+                result.append({'chrom': chrom, 'start': region_start, 'end': region_end, 'count_sum': count_sum, 
+                               'row_count': row_count, 'rpkm': (count_sum / (bin_size / 1000) / (row_count / 1000000))})
+                print({'chrom': chrom, 'start': region_start, 'end': region_end, 'count_sum': count_sum, 
+                               'row_count': row_count, 'rpkm': count_sum / row_count * 1000000})
     
     result_df = pd.DataFrame(result)
     result_df.set_index('chrom', 'start', inplace = True)
 
-    # save the result to a file, with name being the same as the input file with a .binnedcounts.tsv extension and no .bed extension
+    # save the result to a file, with name being the same as the input file
+    # with a .binnedcounts.tsv extension and no .bed extension
     result_df.to_csv(depthFile.replace('.bed', '.binnedcounts.tsv'), sep='\t')
 
 
