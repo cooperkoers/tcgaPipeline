@@ -46,7 +46,7 @@ def distance(depth1, depth2, method):
                                 - depth2[
                                     (depth2["chrom"] == chrom) & (depth2["start"] == start)
                                 ]["depth"]
-                            ) ** 2,
+                            ) ** 2
                         }
                     )
                 else:
