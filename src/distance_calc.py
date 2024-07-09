@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import sys
 
 # different distance calculations for two depth files
 def distance(depth1, depth2, method):
@@ -14,6 +15,7 @@ def distance(depth1, depth2, method):
     for chrom in depth1["chrom"].unique():
         for start in depth1[depth1["chrom"] == chrom]["start"].unique():
             if start in depth2[depth2["chrom"] == chrom]["start"].unique():
+                # relative distance calculation
                 if method == 'relative':
                     result.append(
                         {
@@ -31,6 +33,7 @@ def distance(depth1, depth2, method):
                                 ]["depth"])
                         }
                     )
+                # mean squared error calculation
                 if method == 'mse':
                     result.append(
                         {
@@ -46,5 +49,8 @@ def distance(depth1, depth2, method):
                             ) ** 2,
                         }
                     )
+                else:
+                    sys.exit("Invalid method. Please choose either 'relative' or 'mse'.")
+    
     # return sum of distances
     return sum([x["distance"] for x in result])
