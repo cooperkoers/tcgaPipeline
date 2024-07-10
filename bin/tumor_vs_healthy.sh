@@ -19,4 +19,4 @@ method="$5"
 ./bin/filtered_depth.sh "$healthy_sample" "$regions" "$bin_size"
 
 # Calculate the difference in depth between tumor and healthy samples
-python3 bin/compare_depth.py "${tumor_sample%.*}.binnedcounts.tsv" "${healthy_sample%.*}.binnedcounts.tsv" "$method"
+/usr/licensed/anaconda3/2023.3/bin/python3 bin/compare_depth.py "${tumor_sample%.*}.binnedcounts.tsv" "${healthy_sample%.*}.binnedcounts.tsv" "$method"
