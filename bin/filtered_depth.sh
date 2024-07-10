@@ -41,6 +41,6 @@ rm "$sorted" "$depth" "$bed" "${sorted}.bai"
 echo "Depth calculation complete. Subtracted BED file saved to: $output"
 
 # Run the script with the sample and regions file as arguments
-python3 filtered_depth.py $output $bin_size
+/usr/licensed/anaconda3/2023.3/bin/python3 ./src/filtered_depth.py $output $bin_size
 binned_counts="${sample%.*}.binnedcounts.tsv"
 
